@@ -36,7 +36,7 @@ class TodosDao {
   Future<List<Todo>> getAllTodos() async {
     final db = await todosDatabase.database;
     List<Map<String, dynamic>> result = await db.rawQuery('''
-        SELECT todo._id, todo._title, category._name, todo._date_created, todo._is_active FROM todo
+        SELECT todo._id, todo._title, category._name AS _category, todo._date_created, todo._is_active FROM todo
         INNER JOIN todos_category ON todo._id = todos_category.todo_id
         INNER JOIN category ON todos_category.category_id = category._id
         GROUP BY _date_created''');

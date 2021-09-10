@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_state.dart';
+import 'package:todo_app/bloc/today_todo_bloc/today_todo_bloc.dart';
+import 'package:todo_app/bloc/today_todo_bloc/today_todo_state.dart';
 import 'package:todo_app/models/category.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/ui/category_screen.dart';
@@ -95,20 +97,45 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               title: "Today's tasks", subtitle: 'View all', onTap: () {}),
         ),
         Expanded(
-          child: ListView.builder(
-            itemCount: todos.length,
-            scrollDirection: Axis.vertical,
-            padding: EdgeInsets.only(left: 28.0),
-            itemBuilder: (context, index) {
-              Todo todo = todos[index];
-              return TodoListTile(
-                  id: todo.id!,
-                  title: todo.title,
-                  onTap: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) => TodoDialog(
-                            todo: todo,
-                          )));
+          child: BlocBuilder<TodayTodoBloc, TodayTodoState>(
+            builder: (context, state) {
+              if (state is TodayTodoInitial) {
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Text('Please wait'),
+                );
+              } else if (state is TodayTodoHasNoData) {
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Text('No todos available'),
+                );
+              } else if (state is TodayTodoIsLoading) {
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Text('Please wait'),
+                );
+              } else if (state is TodayTodoHasData) {
+                return ListView.builder(
+                  itemCount: state.todos.length,
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.only(left: 28.0),
+                  itemBuilder: (context, index) {
+                    Todo todo = state.todos[index];
+                    return TodoListTile(
+                        id: todo.id!,
+                        title: todo.title,
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (BuildContext context) => TodoDialog(
+                                  todo: todo,
+                                )));
+                  },
+                );
+              }
+              return Align(
+                alignment: Alignment.topCenter,
+                child: Text('Something went wrong.'),
+              );
             },
           ),
         )
