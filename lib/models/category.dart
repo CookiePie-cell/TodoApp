@@ -1,4 +1,6 @@
-class Category {
+import 'package:equatable/equatable.dart';
+
+class Category extends Equatable {
   int id;
   int taskCount;
   String name;
@@ -18,6 +20,10 @@ class Category {
     };
     return map;
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [id, taskCount, name];
 }
 
 // List<Category> categories = [

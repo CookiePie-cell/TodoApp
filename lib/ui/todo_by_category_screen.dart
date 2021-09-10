@@ -2,9 +2,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/bloc/category_bloc/category_bloc.dart';
+import 'package:todo_app/bloc/category_bloc/category_event.dart';
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_event.dart';
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_state.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
 import 'package:todo_app/models/category.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/ui/widgets/todo_dialog.dart';
@@ -78,15 +82,24 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
                   padding: EdgeInsets.only(left: 28),
                   itemBuilder: (context, index) {
                     Todo todo = state.todos[index];
-                    return TodoListTile(
-                        id: todo.id!,
-                        title: todo.title,
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (context) => TodoDialog(
-                                  todo: todo,
-                                )).then((_) => todoBloc
-                            .add(RefreshTodosByCategory(widget.category.id))));
+                    return Dismissible(
+                      key: Key(todo.toString()),
+                      onDismissed: (direction) {
+                        context.read<TodoItemBloc>().add(TodoItemDeleted(todo));
+                        context.read<CategoryBloc>().add(LoadCategories());
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('${todo.title} removed')));
+                      },
+                      child: TodoListTile(
+                          id: todo.id!,
+                          title: todo.title,
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) => TodoDialog(
+                                    todo: todo,
+                                  )).then((_) => todoBloc.add(
+                              RefreshTodosByCategory(widget.category.id)))),
+                    );
                   });
             }
             return Align(

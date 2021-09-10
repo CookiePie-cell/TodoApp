@@ -72,15 +72,21 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     padding: EdgeInsets.only(left: 28.0),
                     itemBuilder: (context, index) {
                       Category card = state.categories[index];
-                      return CategoryCard(
-                        taskCount: card.taskCount,
-                        category: card.name,
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) =>
-                                    TodoByCategoryScreen(category: card))),
-                      );
+                      return index == 0
+                          ? CategoryCard(
+                              taskCount: 0,
+                              category: 'All',
+                              onTap: () {},
+                            )
+                          : CategoryCard(
+                              taskCount: card.taskCount,
+                              category: card.name,
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => TodoByCategoryScreen(
+                                          category: card))),
+                            );
                     },
                   );
                 }
