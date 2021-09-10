@@ -1,9 +1,7 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/bloc/category_bloc/category_bloc.dart';
-import 'package:todo_app/bloc/category_bloc/category_event.dart';
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_event.dart';
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_state.dart';
@@ -42,6 +40,7 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // log('is dis getting reccaled');
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 80.0,
@@ -83,12 +82,12 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
                   itemBuilder: (context, index) {
                     Todo todo = state.todos[index];
                     return Dismissible(
-                      key: Key(todo.toString()),
+                      key: UniqueKey(),
                       onDismissed: (direction) {
                         context.read<TodoItemBloc>().add(TodoItemDeleted(todo));
-                        context.read<CategoryBloc>().add(LoadCategories());
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('${todo.title} removed')));
+                        // context.read<CategoryBloc>().add(LoadCategories());
                       },
                       child: TodoListTile(
                           id: todo.id!,

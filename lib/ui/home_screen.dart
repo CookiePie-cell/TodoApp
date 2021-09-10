@@ -58,8 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context: context,
               builder: (BuildContext context) {
                 return TodoDialog();
-              }).then((_) => BlocProvider.of<TodayTodoBloc>(context)
-            ..add(RefreshTodayTodos())),
+              }),
           hoverColor: Colors.purple,
           child: const Icon(Icons.add),
         ),

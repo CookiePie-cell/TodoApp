@@ -1,11 +1,14 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_state.dart';
 import 'package:todo_app/bloc/today_todo_bloc/today_todo_bloc.dart';
+import 'package:todo_app/bloc/today_todo_bloc/today_todo_event.dart';
 import 'package:todo_app/bloc/today_todo_bloc/today_todo_state.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
 import 'package:todo_app/models/category.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/ui/category_screen.dart';
@@ -54,7 +57,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
             // padding: EdgeInsets.only(left: 28.0),
             child: BlocBuilder<CategoryBloc, CategoryState>(
               builder: (context, state) {
-                log(state.toString());
+                // log(state.toString());
                 if (state is CategoryInitial) {
                   return Container();
                 } else if (state is CategoryNoData) {
@@ -71,22 +74,22 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     itemCount: state.categories.length,
                     padding: EdgeInsets.only(left: 28.0),
                     itemBuilder: (context, index) {
-                      Category card = state.categories[index];
-                      return index == 0
-                          ? CategoryCard(
-                              taskCount: 0,
-                              category: 'All',
-                              onTap: () {},
-                            )
-                          : CategoryCard(
-                              taskCount: card.taskCount,
-                              category: card.name,
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => TodoByCategoryScreen(
-                                          category: card))),
-                            );
+                      if (index == 0)
+                        return CategoryCard(
+                          taskCount: 0,
+                          category: 'All',
+                          onTap: () {},
+                        );
+                      Category card = state.categories[index - 1];
+                      return CategoryCard(
+                        taskCount: card.taskCount,
+                        category: card.name,
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    TodoByCategoryScreen(category: card))),
+                      );
                     },
                   );
                 }
@@ -127,14 +130,22 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                   padding: EdgeInsets.only(left: 28.0),
                   itemBuilder: (context, index) {
                     Todo todo = state.todos[index];
-                    return TodoListTile(
-                        id: todo.id!,
-                        title: todo.title,
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (BuildContext context) => TodoDialog(
-                                  todo: todo,
-                                )));
+                    return Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (direction) {
+                        context.read<TodoItemBloc>().add(TodoItemDeleted(todo));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('${todo.title} removed')));
+                      },
+                      child: TodoListTile(
+                          id: todo.id!,
+                          title: todo.title,
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (BuildContext context) => TodoDialog(
+                                    todo: todo,
+                                  ))),
+                    );
                   },
                 );
               }

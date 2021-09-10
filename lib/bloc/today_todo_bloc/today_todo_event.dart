@@ -12,6 +12,6 @@ class LoadAllTodayTodos extends TodayTodoEvent {
   const LoadAllTodayTodos();
 }
 
-class RefreshTodayTodos extends TodayTodoEvent {
-  const RefreshTodayTodos();
-}
+// class RefreshTodayTodos extends TodayTodoEvent {
+//   const RefreshTodayTodos();
+// }

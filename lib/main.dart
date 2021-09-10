@@ -21,20 +21,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<TodoItemBloc>(
+            create: (context) => TodoItemBloc(
+                todoRepository: TodoDataRepository(todosDao: TodosDao()))),
         BlocProvider<TodayTodoBloc>(
             create: (context) => TodayTodoBloc(
-                todoRepository: TodoDataRepository(todosDao: TodosDao()))
+                todoRepository: TodoDataRepository(todosDao: TodosDao()),
+                todoItemBloc: context.read<TodoItemBloc>())
               ..add(LoadAllTodayTodos())),
         BlocProvider<CategoryBloc>(
             create: (context) => CategoryBloc(
-                todoRepository: TodoDataRepository(todosDao: TodosDao()))
+                todoRepository: TodoDataRepository(todosDao: TodosDao()),
+                todoItemBloc: context.read<TodoItemBloc>())
               ..add(LoadCategories())),
         BlocProvider<TodoByCategoryBloc>(
             create: (context) => TodoByCategoryBloc(
                 todoRepository: TodoDataRepository(todosDao: TodosDao()))),
-        BlocProvider<TodoItemBloc>(
-            create: (context) => TodoItemBloc(
-                todoRepository: TodoDataRepository(todosDao: TodosDao())))
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

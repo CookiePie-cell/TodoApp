@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,15 +43,13 @@ class _TodoDialogState extends State<TodoDialog> {
 
   void _addSaveEvent(BuildContext context, Todo todo) {
     todoItemBloc.add(TodoItemAdded(todo));
-    Navigator.pop(
-        context, BlocProvider.of<CategoryBloc>(context)..add(LoadCategories()));
+    Navigator.pop(context);
   }
 
   void _addUpdateEvent(BuildContext context, Todo todo) {
-    log('Updated: ${todo.title} + ${todo.category}');
+    // log('Updated: ${todo.title} + ${todo.category}');
     todoItemBloc.add(TodoItemUpdated(todo));
-    Navigator.pop(
-        context, BlocProvider.of<CategoryBloc>(context)..add(LoadCategories()));
+    Navigator.pop(context);
   }
 
   @override

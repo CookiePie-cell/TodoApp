@@ -23,8 +23,8 @@ class TodoItemBloc extends Bloc<TodoItemEvent, TodoItemState> {
 
   Stream<TodoItemState> _mapTodoItemAddedToState(TodoItemAdded event) async* {
     try {
-      var result = await todoRepository.addTodo(event.todo);
-      yield TodosUpdatedSuccess();
+      await todoRepository.addTodo(event.todo);
+      yield TodosUpdatedSuccess(event.todo);
     } catch (e) {
       yield TodosUpdatedFailed();
     }
@@ -33,8 +33,8 @@ class TodoItemBloc extends Bloc<TodoItemEvent, TodoItemState> {
   Stream<TodoItemState> _mapTodoItemUpdatedToState(
       TodoItemUpdated event) async* {
     try {
-      var result = await todoRepository.updateTodo(event.todo);
-      yield TodosUpdatedSuccess();
+      await todoRepository.updateTodo(event.todo);
+      yield TodosUpdatedSuccess(event.todo);
     } catch (e) {
       yield TodosUpdatedFailed();
     }
@@ -42,8 +42,8 @@ class TodoItemBloc extends Bloc<TodoItemEvent, TodoItemState> {
 
   Stream<TodoItemState> _mapTodoItemDeleted(TodoItemDeleted event) async* {
     try {
-      var result = await todoRepository.deleteTodo(event.todo);
-      yield TodosUpdatedSuccess();
+      await todoRepository.deleteTodo(event.todo);
+      yield TodosUpdatedSuccess(DateTime.now());
     } catch (e) {
       yield (TodosUpdatedFailed());
     }

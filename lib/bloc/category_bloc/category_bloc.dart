@@ -1,15 +1,28 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_event.dart';
 import 'package:todo_app/bloc/category_bloc/category_state.dart';
-import 'package:todo_app/models/category.dart';
+import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_state.dart';
 import 'package:todo_app/repository/todo_repository.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  CategoryBloc({required this.todoRepository}) : super(CategoryInitial());
+  CategoryBloc({required this.todoRepository, required this.todoItemBloc})
+      : super(CategoryInitial()) {
+    _streamSubscription = todoItemBloc.stream.listen((state) {
+      log('hello');
+      if (state is TodosUpdatedSuccess) {
+        add(LoadCategories());
+      }
+    });
+  }
 
   final TodoRepository todoRepository;
+  final TodoItemBloc todoItemBloc;
+  late StreamSubscription _streamSubscription;
 
   @override
   Stream<CategoryState> mapEventToState(CategoryEvent event) async* {
@@ -19,7 +32,6 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Stream<CategoryState> mapLoadCategoriesToState() async* {
-    yield CategoryIsLoading();
     try {
       var categories = await todoRepository.getCategories();
 
@@ -32,6 +44,12 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     } catch (e) {
       yield CategoryError();
     }
+  }
+
+  @override
+  Future<void> close() {
+    _streamSubscription.cancel();
+    return super.close();
   }
 
   // Future<int> getCategoryTotal(List<Category> categories) {

@@ -11,7 +11,11 @@ class TodosNoAction extends TodoItemState {
 }
 
 class TodosUpdatedSuccess extends TodoItemState {
-  const TodosUpdatedSuccess();
+  final dynamic status;
+  const TodosUpdatedSuccess(this.status);
+
+  @override
+  List<Object> get props => [status];
 }
 
 class TodosUpdatedFailed extends TodoItemState {

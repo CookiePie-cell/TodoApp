@@ -8,7 +8,7 @@ import 'package:todo_app/repository/todo_repository.dart';
 class TodoByCategoryBloc
     extends Bloc<TodoByCategoryEvent, TodoByCategoryState> {
   TodoByCategoryBloc({required this.todoRepository})
-      : super(TodoByCategoryInitial());
+      : super(TodoByCategoryInitial()) {}
 
   final TodoRepository todoRepository;
 

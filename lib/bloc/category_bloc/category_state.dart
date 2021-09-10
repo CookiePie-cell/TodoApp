@@ -15,6 +15,9 @@ class CategoryInitial extends CategoryState {
 class CategoryHasData extends CategoryState {
   final List<Category> categories;
   const CategoryHasData(this.categories);
+
+  @override
+  List<Object> get props => [categories];
 }
 
 class CategoryNoData extends CategoryState {

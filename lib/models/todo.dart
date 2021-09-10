@@ -54,7 +54,7 @@ class Todo extends Equatable {
   List<Object?> get props => [id, title, category, dateCreated, isActive];
 
   @override
-  String toString() => '$id';
+  String toString() => '$id $title $category $dateCreated $isActive';
 }
 
 List<Todo> todos = [
