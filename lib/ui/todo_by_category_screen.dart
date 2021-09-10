@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/bloc/todo_bloc/todo_bloc.dart';
-import 'package:todo_app/bloc/todo_bloc/todo_event.dart';
-import 'package:todo_app/bloc/todo_bloc/todo_state.dart';
+import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
+import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_event.dart';
+import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_state.dart';
 import 'package:todo_app/models/category.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/ui/widgets/todo_dialog.dart';
@@ -22,7 +22,8 @@ class TodoByCategoryScreen extends StatefulWidget {
 }
 
 class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
-  late TodoBloc todoBloc;
+  // late TodoByCategoryBloc todoBloc;
+  late TodoByCategoryBloc todoBloc;
 
   @override
   void initState() {
@@ -31,7 +32,7 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
   }
 
   _loadTodosBloc() {
-    todoBloc = context.read<TodoBloc>();
+    todoBloc = context.read<TodoByCategoryBloc>();
     todoBloc.add(LoadTodosByCategory(widget.category.id));
   }
 
@@ -53,24 +54,24 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
                 fontWeight: FontWeight.w800),
           ),
         ),
-        body: BlocBuilder<TodoBloc, TodoState>(
+        body: BlocBuilder<TodoByCategoryBloc, TodoByCategoryState>(
           builder: (context, state) {
-            if (state is TodoInitial) {
+            if (state is TodoByCategoryInitial) {
               return Align(
                 alignment: Alignment.topCenter,
                 child: Text('Please wait'),
               );
-            } else if (state is TodoHasNoData) {
+            } else if (state is TodoByCategoryHasNoData) {
               return Align(
                 alignment: Alignment.topCenter,
                 child: Text('No todos available'),
               );
-            } else if (state is TodoIsLoading) {
+            } else if (state is TodoByCategoryLoading) {
               return Align(
                 alignment: Alignment.topCenter,
                 child: Text('Please wait'),
               );
-            } else if (state is TodoHasData) {
+            } else if (state is TodoByCategoryHasData) {
               return ListView.builder(
                   itemCount: state.todos.length,
                   scrollDirection: Axis.vertical,
@@ -84,8 +85,8 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
                             context: context,
                             builder: (context) => TodoDialog(
                                   todo: todo,
-                                )).then((_) =>
-                            todoBloc.add(RefreshTodos(widget.category.id))));
+                                )).then((_) => todoBloc
+                            .add(RefreshTodosByCategory(widget.category.id))));
                   });
             }
             return Align(
