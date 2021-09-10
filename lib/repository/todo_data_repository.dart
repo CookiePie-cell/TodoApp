@@ -27,6 +27,11 @@ class TodoDataRepository extends TodoRepository {
   }
 
   @override
+  Future<List<Todo>> getTodayTodos() {
+    return todosDao.getTodayTodos();
+  }
+
+  @override
   Future<List<Category>> getCategories() {
     return todosDao.getCategories();
   }

@@ -1,6 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/bloc/today_todo_bloc/today_todo_bloc.dart';
+import 'package:todo_app/bloc/today_todo_bloc/today_todo_event.dart';
 
 import 'home_screen_body.dart';
 import 'widgets/todo_dialog.dart';
@@ -55,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
               context: context,
               builder: (BuildContext context) {
                 return TodoDialog();
-              }),
+              }).then((_) => BlocProvider.of<TodayTodoBloc>(context)
+            ..add(RefreshTodayTodos())),
           hoverColor: Colors.purple,
           child: const Icon(Icons.add),
         ),

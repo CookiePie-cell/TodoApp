@@ -12,13 +12,15 @@ class TodayTodoBloc extends Bloc<TodayTodoEvent, TodayTodoState> {
   Stream<TodayTodoState> mapEventToState(TodayTodoEvent event) async* {
     if (event is LoadAllTodayTodos) {
       yield* mapLoadAllTodosToState();
+    } else if (event is RefreshTodayTodos) {
+      yield* _mapRefreshedTodosToState();
     }
   }
 
   Stream<TodayTodoState> mapLoadAllTodosToState() async* {
     yield TodayTodoIsLoading();
     try {
-      var todos = await todoRepository.getAllTodos();
+      var todos = await todoRepository.getTodayTodos();
       if (todos.isEmpty) {
         yield TodayTodoHasNoData();
       } else {
@@ -27,5 +29,10 @@ class TodayTodoBloc extends Bloc<TodayTodoEvent, TodayTodoState> {
     } catch (e) {
       yield TodayTodoIsError();
     }
+  }
+
+  Stream<TodayTodoState> _mapRefreshedTodosToState() async* {
+    var todos = await todoRepository.getTodayTodos();
+    yield TodayTodoHasData(todos);
   }
 }

@@ -5,6 +5,7 @@ abstract class TodoRepository {
   Future addTodo(Todo todo);
   Future<Todo?> getTodo(int id);
   Future<List<Todo>> getAllTodos();
+  Future<List<Todo>> getTodayTodos();
   Future<List<Todo>> getTodosByCategory(int id);
   Future<List<Category>> getCategories();
   Future updateTodo(Todo todo);

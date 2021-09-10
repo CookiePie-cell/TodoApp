@@ -18,7 +18,7 @@ class TodoByCategoryBloc
     if (event is LoadTodosByCategory) {
       yield* mapLoadTodosByCategory(event);
     } else if (event is RefreshTodosByCategory) {
-      yield* mapRefreshedTodosToState(event, state);
+      yield* mapRefreshedTodosToState(event);
     }
   }
 
@@ -41,7 +41,7 @@ class TodoByCategoryBloc
   }
 
   Stream<TodoByCategoryState> mapRefreshedTodosToState(
-      RefreshTodosByCategory event, TodoByCategoryState state) async* {
+      RefreshTodosByCategory event) async* {
     var todos = await todoRepository.getTodosByCategory(event.id);
     log(todos.length.toString());
     yield TodoByCategoryHasData(todos);
