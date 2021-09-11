@@ -13,23 +13,18 @@ import 'package:todo_app/ui/widgets/todo_dialog.dart';
 import 'package:todo_app/ui/widgets/todos_list_tile.dart';
 import 'package:provider/provider.dart';
 
-class TodoByCategoryScreen extends StatefulWidget {
+class TodoByCategoryScreen extends StatelessWidget {
   const TodoByCategoryScreen({Key? key, required this.category})
       : super(key: key);
 
   final Category category;
 
-  @override
-  _TodoByCategoryScreenState createState() => _TodoByCategoryScreenState();
-}
-
-class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
   // late TodoByCategoryBloc todoBloc;
   @override
   Widget build(BuildContext context) {
     // log('is dis getting reccaled');
     BlocProvider.of<TodoByCategoryBloc>(context)
-        .add(LoadTodosByCategory(widget.category.id));
+        .add(LoadTodosByCategory(category.id));
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 80.0,
@@ -39,7 +34,7 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
               icon: Icon(Icons.arrow_back_ios),
               onPressed: () => Navigator.of(context).pop()),
           title: Text(
-            widget.category.name,
+            category.name,
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 32.0,
@@ -87,8 +82,7 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
                                     todo: todo,
                                   )).then((_) => context
                               .read<TodoByCategoryBloc>()
-                              .add(
-                                  RefreshTodosByCategory(widget.category.id)))),
+                              .add(RefreshTodosByCategory(category.id)))),
                     );
                   });
             }
