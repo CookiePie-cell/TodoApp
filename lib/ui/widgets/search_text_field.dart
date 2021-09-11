@@ -1,6 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/bloc/todos_search_bloc/todos_search_bloc.dart';
+import 'package:todo_app/bloc/todos_search_bloc/todos_search_event.dart';
 
 class SearchTextField extends StatefulWidget {
   const SearchTextField({Key? key}) : super(key: key);
@@ -19,7 +22,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
   }
 
   void _addQueryEvent() {
-    log(_controller.text);
+    context.read<TodosSearchBloc>().add(LoadQuery(_controller.text));
   }
 
   @override

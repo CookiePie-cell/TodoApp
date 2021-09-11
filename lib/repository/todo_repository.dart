@@ -3,7 +3,7 @@ import 'package:todo_app/models/todo.dart';
 
 abstract class TodoRepository {
   Future addTodo(Todo todo);
-  Future<Todo?> getTodo(int id);
+  Future<List<Todo>> getTodo(String query);
   Future<List<Todo>> getAllTodos();
   Future<List<Todo>> getTodayTodos();
   Future<List<Todo>> getTodosByCategory(int id);

@@ -7,6 +7,7 @@ import 'package:todo_app/bloc/today_todo_bloc/today_todo_event.dart';
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
 
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
+import 'package:todo_app/bloc/todos_search_bloc/todos_search_bloc.dart';
 import 'package:todo_app/repository/todo_data_repository.dart';
 import 'package:todo_app/services/todos_dao.dart';
 import 'package:todo_app/ui/home_screen.dart';
@@ -37,6 +38,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<TodoByCategoryBloc>(
             create: (context) => TodoByCategoryBloc(
                 todoRepository: TodoDataRepository(todosDao: TodosDao()))),
+        BlocProvider<TodosSearchBloc>(
+            create: (context) => TodosSearchBloc(
+                todoRepository: TodoDataRepository(todosDao: TodosDao())))
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

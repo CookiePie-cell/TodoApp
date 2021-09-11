@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
 class Todo extends Equatable {
-  int? id;
-  String title;
-  String category;
-  DateTime dateCreated;
-  bool isActive;
+  final int? id;
+  final String title;
+  final String category;
+  final DateTime dateCreated;
+  final bool isActive;
 
   Todo(
       {this.id,

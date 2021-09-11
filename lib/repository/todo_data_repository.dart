@@ -37,8 +37,9 @@ class TodoDataRepository extends TodoRepository {
   }
 
   @override
-  Future<Todo?> getTodo(int id) {
-    return todosDao.getTodo(id);
+  Future<List<Todo>> getTodo(String query) {
+    log(todosDao.getTodo(query).toString());
+    return todosDao.getTodo(query);
   }
 
   @override

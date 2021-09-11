@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class Category extends Equatable {
-  int id;
-  int taskCount;
-  String name;
+  final int id;
+  final int taskCount;
+  final String name;
 
   Category({required this.id, required this.taskCount, required this.name});
 

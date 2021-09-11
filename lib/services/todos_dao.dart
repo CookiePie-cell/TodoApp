@@ -7,7 +7,6 @@ import 'package:todo_app/models/todo.dart';
 class TodosDao {
   final TodosDatabase todosDatabase = TodosDatabase.instance;
 
-// TODO: revisi addTodo
   Future addTodo(Todo todo) async {
     final db = await todosDatabase.database;
     await db.transaction((txn) async {
@@ -18,13 +17,20 @@ class TodosDao {
     });
   }
 
-  Future<Todo?> getTodo(int id) async {
+  Future<List<Todo>> getTodo(String query) async {
     final db = await todosDatabase.database;
-    List<Map<String, dynamic>> result = await db.query('todo',
-        columns: ['_id', '_title', '_date_created', '_is_active'],
-        where: '_id = ?',
-        whereArgs: [id]);
-    return result.isNotEmpty ? Todo.fromMap(result.first) : null;
+    // List<Map<String, dynamic>> result = await db.query('todo',
+    //     columns: ['_id', '_title', '_category', '_date_created', '_is_active'],
+    //     where: '_title LIKE ?',
+    //     whereArgs: ['%$query%']);
+    List<Map<String, dynamic>> result = await db.rawQuery('''
+        SELECT todo._id, todo._title, category._name AS _category, DATETIME(todo._date_created) AS _date_created, todo._is_active FROM todo
+        INNER JOIN todos_category ON todo._id = todos_category.todo_id
+        INNER JOIN category ON todos_category.category_id = category._id
+        WHERE todo._title LIKE ?''', ['%$query%']);
+    return result.isNotEmpty
+        ? result.map((item) => Todo.fromMap(item)).toList()
+        : [];
   }
 
   Future<List<Todo>> getAllTodos() async {
