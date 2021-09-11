@@ -59,7 +59,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           title: todo.title,
                           onTap: () => showDialog(
                               context: context,
-                              builder: (context) => TodoDialog()));
+                              builder: (context) => TodoDialog(
+                                    todo: todo,
+                                  )));
                     },
                   );
                 } else if (state is TodosSearchError) {

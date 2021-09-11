@@ -27,7 +27,8 @@ class TodosDao {
         SELECT todo._id, todo._title, category._name AS _category, DATETIME(todo._date_created) AS _date_created, todo._is_active FROM todo
         INNER JOIN todos_category ON todo._id = todos_category.todo_id
         INNER JOIN category ON todos_category.category_id = category._id
-        WHERE todo._title LIKE ?''', ['%$query%']);
+        WHERE ? != "" AND todo._title LIKE ?''', [query, '%$query%']);
+    log(result.toString());
     return result.isNotEmpty
         ? result.map((item) => Todo.fromMap(item)).toList()
         : [];
