@@ -11,6 +11,7 @@ import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
 import 'package:todo_app/models/category.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/ui/category_screen.dart';
+import 'package:todo_app/ui/today_todos_screen.dart';
 import 'package:todo_app/ui/todo_by_category_screen.dart';
 import 'package:todo_app/ui/widgets/category_card.dart';
 import 'package:todo_app/ui/widgets/section_header.dart';
@@ -77,7 +78,10 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                         return CategoryCard(
                           taskCount: state.totalCount,
                           category: 'All',
-                          onTap: () {},
+                          onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => TodayTodosScreen())),
                         );
                       Category card = state.categories[index - 1];
                       return CategoryCard(
