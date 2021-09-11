@@ -42,13 +42,13 @@ class _TodoDialogState extends State<TodoDialog> {
   }
 
   void _addSaveEvent(BuildContext context, Todo todo) {
-    todoItemBloc.add(TodoItemAdded(todo));
+    todoItemBloc.add(AddTodo(todo));
     Navigator.pop(context);
   }
 
   void _addUpdateEvent(BuildContext context, Todo todo) {
     // log('Updated: ${todo.title} + ${todo.category}');
-    todoItemBloc.add(TodoItemUpdated(todo));
+    todoItemBloc.add(UpdateTodo(todo));
     Navigator.pop(context);
   }
 

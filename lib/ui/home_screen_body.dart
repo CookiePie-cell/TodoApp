@@ -133,7 +133,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     return Dismissible(
                       key: UniqueKey(),
                       onDismissed: (direction) {
-                        context.read<TodoItemBloc>().add(TodoItemDeleted(todo));
+                        context.read<TodoItemBloc>().add(DeleteTodo(todo));
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('${todo.title} removed')));
                       },

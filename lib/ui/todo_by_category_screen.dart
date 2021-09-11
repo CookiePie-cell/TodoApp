@@ -84,7 +84,7 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
                     return Dismissible(
                       key: UniqueKey(),
                       onDismissed: (direction) {
-                        context.read<TodoItemBloc>().add(TodoItemDeleted(todo));
+                        context.read<TodoItemBloc>().add(DeleteTodo(todo));
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('${todo.title} removed')));
                         // context.read<CategoryBloc>().add(LoadCategories());

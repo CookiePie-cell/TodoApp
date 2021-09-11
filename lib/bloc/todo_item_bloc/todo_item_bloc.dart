@@ -12,38 +12,51 @@ class TodoItemBloc extends Bloc<TodoItemEvent, TodoItemState> {
 
   @override
   Stream<TodoItemState> mapEventToState(TodoItemEvent event) async* {
-    if (event is TodoItemAdded) {
+    if (event is LoadTodos) {
+      yield* _mapLoadTodosToState();
+    } else if (event is AddTodo) {
       yield* _mapTodoItemAddedToState(event);
-    } else if (event is TodoItemUpdated) {
+    } else if (event is UpdateTodo) {
       yield* _mapTodoItemUpdatedToState(event);
-    } else if (event is TodoItemDeleted) {
+    } else if (event is DeleteTodo) {
       yield* _mapTodoItemDeleted(event);
     }
   }
 
-  Stream<TodoItemState> _mapTodoItemAddedToState(TodoItemAdded event) async* {
+  Stream<TodoItemState> _mapLoadTodosToState() async* {
+    try {
+      final result = await todoRepository.getAllTodos();
+      yield TodosLoaded(result);
+    } catch (e) {
+      yield TodosUpdatedFailed();
+    }
+  }
+
+  Stream<TodoItemState> _mapTodoItemAddedToState(AddTodo event) async* {
     try {
       await todoRepository.addTodo(event.todo);
-      yield TodosUpdatedSuccess(event.todo);
+      final result = await todoRepository.getAllTodos();
+      yield TodosLoaded(result);
     } catch (e) {
       yield TodosUpdatedFailed();
     }
   }
 
-  Stream<TodoItemState> _mapTodoItemUpdatedToState(
-      TodoItemUpdated event) async* {
+  Stream<TodoItemState> _mapTodoItemUpdatedToState(UpdateTodo event) async* {
     try {
       await todoRepository.updateTodo(event.todo);
-      yield TodosUpdatedSuccess(event.todo);
+      final result = await todoRepository.getAllTodos();
+      yield TodosLoaded(result);
     } catch (e) {
       yield TodosUpdatedFailed();
     }
   }
 
-  Stream<TodoItemState> _mapTodoItemDeleted(TodoItemDeleted event) async* {
+  Stream<TodoItemState> _mapTodoItemDeleted(DeleteTodo event) async* {
     try {
       await todoRepository.deleteTodo(event.todo);
-      yield TodosUpdatedSuccess(DateTime.now());
+      final result = await todoRepository.getAllTodos();
+      yield TodosLoaded(result);
     } catch (e) {
       yield (TodosUpdatedFailed());
     }

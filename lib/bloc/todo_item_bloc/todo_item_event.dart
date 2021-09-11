@@ -2,23 +2,30 @@ import 'package:equatable/equatable.dart';
 import 'package:todo_app/models/todo.dart';
 
 abstract class TodoItemEvent extends Equatable {
-  final Todo todo;
-  const TodoItemEvent(this.todo);
+  const TodoItemEvent();
   @override
-  List<Object> get props => [todo];
+  List<Object> get props => [];
 }
 
-class TodoItemAdded extends TodoItemEvent {
-  const TodoItemAdded(Todo todo) : super(todo);
+class LoadTodos extends TodoItemEvent {
+  const LoadTodos();
 }
 
-class TodoItemUpdated extends TodoItemEvent {
-  const TodoItemUpdated(Todo todo) : super(todo);
+class AddTodo extends TodoItemEvent {
+  final Todo todo;
+  const AddTodo(this.todo);
 }
 
-class TodoItemDeleted extends TodoItemEvent {
-  const TodoItemDeleted(Todo todo) : super(todo);
+class UpdateTodo extends TodoItemEvent {
+  final Todo todo;
+  const UpdateTodo(this.todo);
 }
+
+class DeleteTodo extends TodoItemEvent {
+  final Todo todo;
+  const DeleteTodo(this.todo);
+}
+
 
 
 

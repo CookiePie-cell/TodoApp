@@ -26,7 +26,6 @@ class TodoByCategoryBloc
       LoadTodosByCategory event) async* {
     yield TodoByCategoryLoading();
     try {
-      log('asdasd');
       var todos = await todoRepository.getTodosByCategory(event.id);
       log(todos.length.toString());
       if (todos.isEmpty) {
