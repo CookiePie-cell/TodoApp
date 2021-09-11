@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_state.dart';
 import 'package:todo_app/bloc/today_todo_bloc/today_todo_bloc.dart';
-import 'package:todo_app/bloc/today_todo_bloc/today_todo_event.dart';
 import 'package:todo_app/bloc/today_todo_bloc/today_todo_state.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
@@ -71,12 +70,12 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 } else if (state is CategoryHasData) {
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: state.categories.length,
+                    itemCount: state.categories.length + 1,
                     padding: EdgeInsets.only(left: 28.0),
                     itemBuilder: (context, index) {
                       if (index == 0)
                         return CategoryCard(
-                          taskCount: 0,
+                          taskCount: state.totalCount,
                           category: 'All',
                           onTap: () {},
                         );

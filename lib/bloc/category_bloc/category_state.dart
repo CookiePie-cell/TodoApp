@@ -14,10 +14,11 @@ class CategoryInitial extends CategoryState {
 
 class CategoryHasData extends CategoryState {
   final List<Category> categories;
-  const CategoryHasData(this.categories);
+  final int totalCount;
+  const CategoryHasData(this.categories, this.totalCount);
 
   @override
-  List<Object> get props => [categories];
+  List<Object> get props => [categories, totalCount];
 }
 
 class CategoryNoData extends CategoryState {

@@ -4,10 +4,9 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_event.dart';
 import 'package:todo_app/bloc/category_bloc/category_state.dart';
-import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
-import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_state.dart';
+import 'package:todo_app/models/category.dart';
 import 'package:todo_app/repository/todo_repository.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
@@ -35,12 +34,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   Stream<CategoryState> mapLoadCategoriesToState() async* {
     try {
       var categories = await todoRepository.getCategories();
-
       if (categories.isEmpty) {
         yield CategoryNoData();
       } else {
-        // int totalCount = await getCategoryTotal(categories);
-        yield CategoryHasData(categories);
+        int totalCount = getCategoryTotal(categories);
+        yield CategoryHasData(categories, totalCount);
       }
     } catch (e) {
       yield CategoryError();
@@ -53,12 +51,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     return super.close();
   }
 
-  // Future<int> getCategoryTotal(List<Category> categories) {
-  //   int totalCount = 0;
-  //   for (int i = 0; i < 10000; i++) {
-  //     totalCount++;
-  //   }
-  //   categories.forEach((category) => totalCount += category.taskCount);
-  //   return totalCount;
-  // }
+  int getCategoryTotal(List<Category> categories) {
+    int totalCount = 0;
+    categories.forEach((category) => totalCount += category.taskCount);
+    return totalCount;
+  }
 }

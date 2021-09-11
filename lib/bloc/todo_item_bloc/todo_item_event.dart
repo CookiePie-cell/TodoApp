@@ -14,19 +14,23 @@ class LoadTodos extends TodoItemEvent {
 class AddTodo extends TodoItemEvent {
   final Todo todo;
   const AddTodo(this.todo);
+
+  @override
+  List<Object> get props => [todo];
 }
 
 class UpdateTodo extends TodoItemEvent {
   final Todo todo;
   const UpdateTodo(this.todo);
+
+  @override
+  List<Object> get props => [todo];
 }
 
 class DeleteTodo extends TodoItemEvent {
   final Todo todo;
   const DeleteTodo(this.todo);
+
+  @override
+  List<Object> get props => [todo];
 }
-
-
-
-
-// TODO: membuat event todo crud

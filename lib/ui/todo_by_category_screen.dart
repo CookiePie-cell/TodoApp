@@ -25,22 +25,11 @@ class TodoByCategoryScreen extends StatefulWidget {
 
 class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
   // late TodoByCategoryBloc todoBloc;
-  late TodoByCategoryBloc todoBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTodosBloc();
-  }
-
-  _loadTodosBloc() {
-    todoBloc = context.read<TodoByCategoryBloc>();
-    todoBloc.add(LoadTodosByCategory(widget.category.id));
-  }
-
   @override
   Widget build(BuildContext context) {
     // log('is dis getting reccaled');
+    BlocProvider.of<TodoByCategoryBloc>(context)
+        .add(LoadTodosByCategory(widget.category.id));
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 80.0,
@@ -96,8 +85,10 @@ class _TodoByCategoryScreenState extends State<TodoByCategoryScreen> {
                               context: context,
                               builder: (context) => TodoDialog(
                                     todo: todo,
-                                  )).then((_) => todoBloc.add(
-                              RefreshTodosByCategory(widget.category.id)))),
+                                  )).then((_) => context
+                              .read<TodoByCategoryBloc>()
+                              .add(
+                                  RefreshTodosByCategory(widget.category.id)))),
                     );
                   });
             }

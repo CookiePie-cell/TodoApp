@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 import 'package:todo_app/bloc/today_todo_bloc/today_todo_event.dart';
 import 'package:todo_app/bloc/today_todo_bloc/today_todo_state.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
-import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_state.dart';
 import 'package:todo_app/repository/todo_repository.dart';
 
