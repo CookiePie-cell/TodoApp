@@ -26,9 +26,13 @@ class TodoItemBloc extends Bloc<TodoItemEvent, TodoItemState> {
   Stream<TodoItemState> _mapLoadTodosToState() async* {
     try {
       final result = await todoRepository.getAllTodos();
-      yield TodosLoaded(result);
+      if (result.isEmpty) {
+        yield TodosNoData();
+      } else {
+        yield TodosLoaded(result);
+      }
     } catch (e) {
-      yield TodosUpdatedFailed();
+      yield TodosIsError();
     }
   }
 

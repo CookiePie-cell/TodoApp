@@ -33,13 +33,16 @@ class _TodoListTileState extends State<TodoListTile> {
               SizedBox(
                 width: 12.0,
               ),
-              Text(
-                widget.title,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Colors.black.withOpacity(0.6),
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  widget.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(0.6),
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               )
             ],

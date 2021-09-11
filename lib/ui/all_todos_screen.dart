@@ -6,6 +6,7 @@ import 'package:todo_app/bloc/today_todo_bloc/today_todo_bloc.dart';
 import 'package:todo_app/bloc/today_todo_bloc/today_todo_state.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_state.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/ui/widgets/todo_dialog.dart';
 import 'package:todo_app/ui/widgets/todos_list_tile.dart';
@@ -15,6 +16,7 @@ class TodayTodosScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<TodoItemBloc>(context).add(LoadTodos());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80.0,
@@ -24,7 +26,7 @@ class TodayTodosScreen extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () => Navigator.pop(context)),
         title: Text(
-          'Today',
+          'All',
           style: TextStyle(
             color: Colors.black,
             fontSize: 32.0,
@@ -32,24 +34,24 @@ class TodayTodosScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: BlocBuilder<TodayTodoBloc, TodayTodoState>(
+      body: BlocBuilder<TodoItemBloc, TodoItemState>(
         builder: (context, state) {
-          if (state is TodayTodoInitial) {
+          if (state is TodosNoAction) {
             return Align(
               alignment: Alignment.topCenter,
               child: Text('Please wait'),
             );
-          } else if (state is TodayTodoHasNoData) {
+          } else if (state is TodosNoData) {
             return Align(
               alignment: Alignment.topCenter,
               child: Text('No todos available'),
             );
-          } else if (state is TodayTodoIsError) {
+          } else if (state is TodosIsError) {
             return Align(
               alignment: Alignment.topCenter,
               child: Text('Something went wrong'),
             );
-          } else if (state is TodayTodoHasData) {
+          } else if (state is TodosLoaded) {
             return ListView.builder(
                 itemCount: state.todos.length,
                 scrollDirection: Axis.vertical,

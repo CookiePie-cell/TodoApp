@@ -19,6 +19,18 @@ class TodosLoaded extends TodoItemState {
   List<Object> get props => [todos];
 }
 
+class TodosNoData extends TodoItemState {
+  const TodosNoData();
+}
+
+class TodosIsLoading extends TodoItemState {
+  const TodosIsLoading();
+}
+
+class TodosIsError extends TodoItemState {
+  const TodosIsError();
+}
+
 class TodosUpdatedSuccess extends TodoItemState {
   final dynamic status;
   const TodosUpdatedSuccess(this.status);

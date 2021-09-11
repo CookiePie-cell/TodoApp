@@ -11,7 +11,7 @@ import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
 import 'package:todo_app/models/category.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/ui/category_screen.dart';
-import 'package:todo_app/ui/today_todos_screen.dart';
+import 'package:todo_app/ui/all_todos_screen.dart';
 import 'package:todo_app/ui/todo_by_category_screen.dart';
 import 'package:todo_app/ui/widgets/category_card.dart';
 import 'package:todo_app/ui/widgets/section_header.dart';
@@ -106,7 +106,10 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
         Padding(
           padding: EdgeInsets.fromLTRB(28.0, 8.0, 28.0, 4.0),
           child: SectionHeader(
-              title: "Today's tasks", subtitle: 'View all', onTap: () {}),
+              title: "Today's tasks",
+              subtitle: 'View all',
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => TodayTodosScreen()))),
         ),
         Expanded(
           child: BlocBuilder<TodayTodoBloc, TodayTodoState>(
