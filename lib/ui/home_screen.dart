@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:todo_app/ui/search_screen.dart';
 import 'home_screen_body.dart';
 import 'widgets/todo_dialog.dart';
 
@@ -36,7 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Icons.search,
                 size: 30,
               ),
-              onPressed: () {}),
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => SearchScreen()))),
           IconButton(icon: Icon(Icons.alarm, size: 30), onPressed: () {})
         ],
         iconTheme: IconThemeData(color: Colors.black.withOpacity(0.8)),
