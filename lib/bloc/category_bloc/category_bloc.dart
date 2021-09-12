@@ -14,7 +14,6 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       : super(CategoryInitial()) {
     _streamSubscription = todoItemBloc.stream.listen((state) {
       if (state is TodosLoaded) {
-        log('hello');
         add(LoadCategories());
       }
     });

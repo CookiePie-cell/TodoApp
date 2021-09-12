@@ -1,20 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
+import 'package:todo_app/models/todo.dart';
+import 'package:provider/provider.dart';
 
 class TodoListTile extends StatefulWidget {
   const TodoListTile(
-      {Key? key, required this.id, required this.title, required this.onTap})
+      {Key? key, required this.todo, required this.onTap, this.onChanged})
       : super(key: key);
 
-  final int id;
-  final String title;
+  final Todo todo;
   final VoidCallback onTap;
+  final VoidCallback? onChanged;
 
   @override
   _TodoListTileState createState() => _TodoListTileState();
 }
 
 class _TodoListTileState extends State<TodoListTile> {
-  bool _isChecked = false;
+  // bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,7 @@ class _TodoListTileState extends State<TodoListTile> {
               ),
               Expanded(
                 child: Text(
-                  widget.title,
+                  widget.todo.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -68,11 +75,19 @@ class _TodoListTileState extends State<TodoListTile> {
     return Checkbox(
         checkColor: Colors.white,
         fillColor: MaterialStateColor.resolveWith(getColor),
-        value: _isChecked,
-        onChanged: (bool? value) {
-          setState(() {
-            _isChecked = value!;
-          });
+        value: !widget.todo.isActive,
+        onChanged: (bool? newValue) {
+          context.read<TodoItemBloc>().add(UpdateTodo(
+              widget.todo.copyWith(isActive: !widget.todo.isActive)));
+          if (widget.onChanged != null) {
+            widget.onChanged!();
+          }
         });
+  }
+
+  void test() {
+    context
+        .read<TodoItemBloc>()
+        .add(UpdateTodo(widget.todo.copyWith(isActive: !widget.todo.isActive)));
   }
 }

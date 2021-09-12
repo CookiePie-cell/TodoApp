@@ -27,14 +27,12 @@ class TodoByCategoryBloc
     yield TodoByCategoryLoading();
     try {
       var todos = await todoRepository.getTodosByCategory(event.id);
-      log(todos.length.toString());
       if (todos.isEmpty) {
         yield TodoByCategoryHasNoData();
       } else {
         yield TodoByCategoryHasData(todos);
       }
     } catch (e) {
-      log(e.toString());
       yield TodoByCategoryError();
     }
   }
@@ -42,7 +40,7 @@ class TodoByCategoryBloc
   Stream<TodoByCategoryState> mapRefreshedTodosToState(
       RefreshTodosByCategory event) async* {
     var todos = await todoRepository.getTodosByCategory(event.id);
-    log(todos.length.toString());
+    log('is this refreshed?');
     yield TodoByCategoryHasData(todos);
   }
 }

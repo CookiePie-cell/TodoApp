@@ -13,7 +13,6 @@ class TodayTodoBloc extends Bloc<TodayTodoEvent, TodayTodoState> {
       : super(TodayTodoInitial()) {
     _streamSubscription = todoItemBloc.stream.listen((state) {
       if (state is TodosLoaded) {
-        log('hello darkness');
         add(LoadAllTodayTodos());
       }
     });

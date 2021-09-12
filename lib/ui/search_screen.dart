@@ -55,8 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     itemBuilder: (context, index) {
                       Todo todo = state.todos[index];
                       return TodoListTile(
-                          id: todo.id!,
-                          title: todo.title,
+                          todo: todo,
                           onTap: () => showDialog(
                               context: context,
                               builder: (context) => TodoDialog(

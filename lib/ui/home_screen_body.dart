@@ -144,8 +144,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                             SnackBar(content: Text('${todo.title} removed')));
                       },
                       child: TodoListTile(
-                          id: todo.id!,
-                          title: todo.title,
+                          todo: todo,
                           onTap: () => showDialog(
                               context: context,
                               builder: (BuildContext context) => TodoDialog(

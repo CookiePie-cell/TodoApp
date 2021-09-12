@@ -65,8 +65,7 @@ class TodayTodosScreen extends StatelessWidget {
                           SnackBar(content: Text('${todo.title} removed')));
                     },
                     child: TodoListTile(
-                        id: todo.id!,
-                        title: todo.title,
+                        todo: todo,
                         onTap: () => showDialog(
                             context: context,
                             builder: (context) => TodoDialog(

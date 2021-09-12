@@ -19,10 +19,6 @@ class TodosDao {
 
   Future<List<Todo>> getTodo(String query) async {
     final db = await todosDatabase.database;
-    // List<Map<String, dynamic>> result = await db.query('todo',
-    //     columns: ['_id', '_title', '_category', '_date_created', '_is_active'],
-    //     where: '_title LIKE ?',
-    //     whereArgs: ['%$query%']);
     List<Map<String, dynamic>> result = await db.rawQuery('''
         SELECT todo._id, todo._title, category._name AS _category, DATETIME(todo._date_created) AS _date_created, todo._is_active FROM todo
         INNER JOIN todos_category ON todo._id = todos_category.todo_id
@@ -40,7 +36,7 @@ class TodosDao {
         SELECT todo._id, todo._title, category._name AS _category, DATETIME(todo._date_created) AS _date_created, todo._is_active FROM todo
         INNER JOIN todos_category ON todo._id = todos_category.todo_id
         INNER JOIN category ON todos_category.category_id = category._id
-        ORDER BY DATETIME(_date_created) DESC''');
+        ORDER BY _date_created DESC''');
     return result.isNotEmpty
         ? result.map((item) => Todo.fromMap(item)).toList()
         : [];
@@ -52,9 +48,8 @@ class TodosDao {
         SELECT todo._id, todo._title, category._name AS _category, DATETIME(todo._date_created) as _date_created, todo._is_active FROM todo
         INNER JOIN todos_category ON todo._id = todos_category.todo_id
         INNER JOIN category ON todos_category.category_id = category._id
-        WHERE strftime('%d', DATETIME(todo._date_created)) = ?
-        ORDER BY DATETIME(todo._date_created) DESC''',
-        [DateTime.now().day.toString()]);
+        WHERE strftime('%d', _date_created) = ?
+        ORDER BY _date_created DESC''', [DateTime.now().day.toString()]);
     return result.isNotEmpty
         ? result.map((item) => Todo.fromMap(item)).toList()
         : [];
@@ -63,10 +58,10 @@ class TodosDao {
   Future<List<Todo>> getTodosByCategory(int id) async {
     final db = await todosDatabase.database;
     List<Map<String, dynamic>> result = await db.rawQuery('''
-        SELECT todo._id, todo._title, category._name AS _category, todo._date_created, todo._is_active FROM todo
+        SELECT todo._id, todo._title, category._name AS _category, DATETIME(todo._date_created) as _date_created, todo._is_active FROM todo
         INNER JOIN todos_category ON todo._id = todos_category.todo_id
         INNER JOIN category ON todos_category.category_id = category._id
-        WHERE category._id = ? GROUP BY _date_created''', [id]);
+        WHERE category._id = ? ORDER BY _date_created DESC''', [id]);
     return result.isNotEmpty
         ? result.map((item) => Todo.fromMap(item)).toList()
         : [];

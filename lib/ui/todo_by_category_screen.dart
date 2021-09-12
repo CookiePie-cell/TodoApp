@@ -1,5 +1,7 @@
 // import 'dart:developer';
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
@@ -74,15 +76,20 @@ class TodoByCategoryScreen extends StatelessWidget {
                         // context.read<CategoryBloc>().add(LoadCategories());
                       },
                       child: TodoListTile(
-                          id: todo.id!,
-                          title: todo.title,
-                          onTap: () => showDialog(
-                              context: context,
-                              builder: (context) => TodoDialog(
-                                    todo: todo,
-                                  )).then((_) => context
+                        todo: todo,
+                        onTap: () => showDialog(
+                            context: context,
+                            builder: (context) => TodoDialog(
+                                  todo: todo,
+                                )).then((_) => context
+                            .read<TodoByCategoryBloc>()
+                            .add(RefreshTodosByCategory(category.id))),
+                        onChanged: () {
+                          context
                               .read<TodoByCategoryBloc>()
-                              .add(RefreshTodosByCategory(category.id)))),
+                              .add(RefreshTodosByCategory(category.id));
+                        },
+                      ),
                     );
                   });
             }
