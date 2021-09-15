@@ -64,11 +64,6 @@ class TodoByCategoryScreen extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: Text('No todos available'),
                 );
-              } else if (state is TodoByCategoryLoading) {
-                return Align(
-                  alignment: Alignment.topCenter,
-                  child: Text('Please wait'),
-                );
               } else if (state is TodoByCategoryHasData) {
                 return ListView.builder(
                     itemCount: state.todos.length,
@@ -95,10 +90,15 @@ class TodoByCategoryScreen extends StatelessWidget {
                         ),
                       );
                     });
+              } else if (state is TodoByCategoryError) {
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Text('Something went wrong.'),
+                );
               }
               return Align(
                 alignment: Alignment.topCenter,
-                child: Text('Something went wrong.'),
+                child: Text('Please wait'),
               );
             },
           ),

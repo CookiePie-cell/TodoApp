@@ -1,5 +1,7 @@
 // import 'dart:developer';
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_bloc.dart';
@@ -152,6 +154,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     padding: EdgeInsets.only(left: 28.0),
                     itemBuilder: (context, index) {
                       Todo todo = state.todos[index];
+                      log(todo.dateCreated.toString());
                       return Dismissible(
                         key: UniqueKey(),
                         onDismissed: (direction) {

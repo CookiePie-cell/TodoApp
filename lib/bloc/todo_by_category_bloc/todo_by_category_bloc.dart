@@ -24,7 +24,6 @@ class TodoByCategoryBloc
 
   Stream<TodoByCategoryState> mapLoadTodosByCategory(
       LoadTodosByCategory event) async* {
-    yield TodoByCategoryLoading();
     try {
       var todos = await todoRepository.getTodosByCategory(event.id);
       if (todos.isEmpty) {
