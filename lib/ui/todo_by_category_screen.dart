@@ -9,6 +9,7 @@ import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_event.dart'
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_state.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
+import 'package:todo_app/bloc/todo_item_bloc/todo_item_state.dart';
 import 'package:todo_app/models/category.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/ui/widgets/todo_dialog.dart';
@@ -43,61 +44,64 @@ class TodoByCategoryScreen extends StatelessWidget {
                 fontWeight: FontWeight.w800),
           ),
         ),
-        body: BlocBuilder<TodoByCategoryBloc, TodoByCategoryState>(
-          builder: (context, state) {
-            if (state is TodoByCategoryInitial) {
-              return Align(
-                alignment: Alignment.topCenter,
-                child: Text('Please wait'),
-              );
-            } else if (state is TodoByCategoryHasNoData) {
-              return Align(
-                alignment: Alignment.topCenter,
-                child: Text('No todos available'),
-              );
-            } else if (state is TodoByCategoryLoading) {
-              return Align(
-                alignment: Alignment.topCenter,
-                child: Text('Please wait'),
-              );
-            } else if (state is TodoByCategoryHasData) {
-              return ListView.builder(
-                  itemCount: state.todos.length,
-                  scrollDirection: Axis.vertical,
-                  padding: EdgeInsets.only(left: 28),
-                  itemBuilder: (context, index) {
-                    Todo todo = state.todos[index];
-                    return Dismissible(
-                      key: UniqueKey(),
-                      onDismissed: (direction) {
-                        context.read<TodoItemBloc>().add(DeleteTodo(todo));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('${todo.title} removed')));
-                        // context.read<CategoryBloc>().add(LoadCategories());
-                      },
-                      child: TodoListTile(
-                        todo: todo,
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (context) => TodoDialog(
-                                  todo: todo,
-                                )).then((_) => context
-                            .read<TodoByCategoryBloc>()
-                            .add(RefreshTodosByCategory(category.id))),
-                        onChanged: () {
-                          context
-                              .read<TodoByCategoryBloc>()
-                              .add(RefreshTodosByCategory(category.id));
-                        },
-                      ),
-                    );
-                  });
+        body: BlocListener<TodoItemBloc, TodoItemState>(
+          listener: (context, state) {
+            if (state is TodosLoaded) {
+              context
+                  .read<TodoByCategoryBloc>()
+                  .add(LoadTodosByCategory(category.id));
             }
-            return Align(
-              alignment: Alignment.topCenter,
-              child: Text('Something went wrong.'),
-            );
           },
+          child: BlocBuilder<TodoByCategoryBloc, TodoByCategoryState>(
+            builder: (context, state) {
+              if (state is TodoByCategoryInitial) {
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Text('Please wait'),
+                );
+              } else if (state is TodoByCategoryHasNoData) {
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Text('No todos available'),
+                );
+              } else if (state is TodoByCategoryLoading) {
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Text('Please wait'),
+                );
+              } else if (state is TodoByCategoryHasData) {
+                return ListView.builder(
+                    itemCount: state.todos.length,
+                    scrollDirection: Axis.vertical,
+                    padding: EdgeInsets.only(left: 28),
+                    itemBuilder: (context, index) {
+                      Todo todo = state.todos[index];
+                      return Dismissible(
+                        key: UniqueKey(),
+                        onDismissed: (direction) {
+                          context.read<TodoItemBloc>().add(DeleteTodo(todo));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('${todo.title} removed')));
+                        },
+                        child: TodoListTile(
+                          todo: todo,
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) => TodoDialog(
+                                    todo: todo,
+                                  )).then((_) => context
+                              .read<TodoByCategoryBloc>()
+                              .add(RefreshTodosByCategory(category.id))),
+                        ),
+                      );
+                    });
+              }
+              return Align(
+                alignment: Alignment.topCenter,
+                child: Text('Something went wrong.'),
+              );
+            },
+          ),
         ));
   }
 }

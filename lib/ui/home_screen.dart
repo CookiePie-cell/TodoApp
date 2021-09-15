@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:todo_app/ui/search_screen.dart';
 import 'home_screen_body.dart';

@@ -1,20 +1,17 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_event.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:provider/provider.dart';
 
 class TodoListTile extends StatefulWidget {
-  const TodoListTile(
-      {Key? key, required this.todo, required this.onTap, this.onChanged})
+  const TodoListTile({Key? key, required this.todo, required this.onTap})
       : super(key: key);
 
   final Todo todo;
   final VoidCallback onTap;
-  final VoidCallback? onChanged;
 
   @override
   _TodoListTileState createState() => _TodoListTileState();
@@ -79,15 +76,6 @@ class _TodoListTileState extends State<TodoListTile> {
         onChanged: (bool? newValue) {
           context.read<TodoItemBloc>().add(UpdateTodo(
               widget.todo.copyWith(isActive: !widget.todo.isActive)));
-          if (widget.onChanged != null) {
-            widget.onChanged!();
-          }
         });
-  }
-
-  void test() {
-    context
-        .read<TodoItemBloc>()
-        .add(UpdateTodo(widget.todo.copyWith(isActive: !widget.todo.isActive)));
   }
 }

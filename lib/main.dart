@@ -27,14 +27,12 @@ class MyApp extends StatelessWidget {
                 todoRepository: TodoDataRepository(todosDao: TodosDao()))),
         BlocProvider<TodayTodoBloc>(
             create: (context) => TodayTodoBloc(
-                todoRepository: TodoDataRepository(todosDao: TodosDao()),
-                todoItemBloc: context.read<TodoItemBloc>())
-              ..add(LoadAllTodayTodos())),
+                  todoRepository: TodoDataRepository(todosDao: TodosDao()),
+                )..add(LoadAllTodayTodos())),
         BlocProvider<CategoryBloc>(
             create: (context) => CategoryBloc(
-                todoRepository: TodoDataRepository(todosDao: TodosDao()),
-                todoItemBloc: context.read<TodoItemBloc>())
-              ..add(LoadCategories())),
+                  todoRepository: TodoDataRepository(todosDao: TodosDao()),
+                )..add(LoadCategories())),
         BlocProvider<TodoByCategoryBloc>(
             create: (context) => TodoByCategoryBloc(
                 todoRepository: TodoDataRepository(todosDao: TodosDao()))),

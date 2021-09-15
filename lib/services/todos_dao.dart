@@ -10,8 +10,8 @@ class TodosDao {
   Future addTodo(Todo todo) async {
     final db = await todosDatabase.database;
     await db.transaction((txn) async {
-      int id2 = await txn.insert('todo', todo.toMap());
-      int id1 = await txn.rawInsert(
+      await txn.insert('todo', todo.toMap());
+      await txn.rawInsert(
           'INSERT INTO todos_category SELECT last_insert_rowid(), _id FROM category WHERE category._name = ?',
           [todo.category]);
     });
