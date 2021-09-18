@@ -4,6 +4,7 @@ import 'package:todo_app/bloc/category_bloc/category_bloc.dart';
 import 'package:todo_app/bloc/category_bloc/category_event.dart';
 import 'package:todo_app/bloc/today_todo_bloc/today_todo_bloc.dart';
 import 'package:todo_app/bloc/today_todo_bloc/today_todo_event.dart';
+import 'package:todo_app/bloc/todo_bloc/todos_bloc.dart';
 import 'package:todo_app/bloc/todo_by_category_bloc/todo_by_category_bloc.dart';
 
 import 'package:todo_app/bloc/todo_item_bloc/todo_item_bloc.dart';
@@ -33,6 +34,10 @@ class MyApp extends StatelessWidget {
             create: (context) => CategoryBloc(
                   todoRepository: TodoDataRepository(todosDao: TodosDao()),
                 )..add(LoadCategories())),
+        BlocProvider<TodoBloc>(
+          create: (context) => TodoBloc(
+              todoRepository: TodoDataRepository(todosDao: TodosDao())),
+        ),
         BlocProvider<TodoByCategoryBloc>(
             create: (context) => TodoByCategoryBloc(
                 todoRepository: TodoDataRepository(todosDao: TodosDao()))),

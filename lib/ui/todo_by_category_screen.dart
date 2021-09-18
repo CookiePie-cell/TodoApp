@@ -46,7 +46,7 @@ class TodoByCategoryScreen extends StatelessWidget {
         ),
         body: BlocListener<TodoItemBloc, TodoItemState>(
           listener: (context, state) {
-            if (state is TodosLoaded) {
+            if (state is TodosUpdatedSuccess) {
               context
                   .read<TodoByCategoryBloc>()
                   .add(LoadTodosByCategory(category.id));
@@ -96,6 +96,7 @@ class TodoByCategoryScreen extends StatelessWidget {
                   child: Text('Something went wrong.'),
                 );
               }
+              log('loading all todos');
               return Align(
                 alignment: Alignment.topCenter,
                 child: Text('Please wait'),

@@ -10,9 +10,7 @@ class TodoItemBloc extends Bloc<TodoItemEvent, TodoItemState> {
 
   @override
   Stream<TodoItemState> mapEventToState(TodoItemEvent event) async* {
-    if (event is LoadTodos) {
-      yield* _mapLoadTodosToState();
-    } else if (event is AddTodo) {
+    if (event is AddTodo) {
       yield* _mapTodoItemAddedToState(event);
     } else if (event is UpdateTodo) {
       yield* _mapTodoItemUpdatedToState(event);
@@ -21,24 +19,10 @@ class TodoItemBloc extends Bloc<TodoItemEvent, TodoItemState> {
     }
   }
 
-  Stream<TodoItemState> _mapLoadTodosToState() async* {
-    try {
-      final result = await todoRepository.getAllTodos();
-      if (result.isEmpty) {
-        yield TodosNoData();
-      } else {
-        yield TodosLoaded(result);
-      }
-    } catch (e) {
-      yield TodosIsError();
-    }
-  }
-
   Stream<TodoItemState> _mapTodoItemAddedToState(AddTodo event) async* {
     try {
       await todoRepository.addTodo(event.todo);
-      final result = await todoRepository.getAllTodos();
-      yield TodosLoaded(result);
+      yield TodosUpdatedSuccess(DateTime.now());
     } catch (e) {
       yield TodosUpdatedFailed();
     }
@@ -47,8 +31,7 @@ class TodoItemBloc extends Bloc<TodoItemEvent, TodoItemState> {
   Stream<TodoItemState> _mapTodoItemUpdatedToState(UpdateTodo event) async* {
     try {
       await todoRepository.updateTodo(event.todo);
-      final result = await todoRepository.getAllTodos();
-      yield TodosLoaded(result);
+      yield TodosUpdatedSuccess(DateTime.now());
     } catch (e) {
       yield TodosUpdatedFailed();
     }
@@ -57,8 +40,7 @@ class TodoItemBloc extends Bloc<TodoItemEvent, TodoItemState> {
   Stream<TodoItemState> _mapTodoItemDeleted(DeleteTodo event) async* {
     try {
       await todoRepository.deleteTodo(event.todo);
-      final result = await todoRepository.getAllTodos();
-      yield TodosLoaded(result);
+      yield TodosUpdatedSuccess(DateTime.now());
     } catch (e) {
       yield (TodosUpdatedFailed());
     }

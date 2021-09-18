@@ -17,6 +17,7 @@ import 'package:todo_app/models/category.dart';
 import 'package:todo_app/models/todo.dart';
 import 'package:todo_app/ui/category_screen.dart';
 import 'package:todo_app/ui/all_todos_screen.dart';
+import 'package:todo_app/ui/today_todos_screen.dart';
 import 'package:todo_app/ui/todo_by_category_screen.dart';
 import 'package:todo_app/ui/widgets/category_card.dart';
 import 'package:todo_app/ui/widgets/section_header.dart';
@@ -62,7 +63,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
             // padding: EdgeInsets.only(left: 28.0),
             child: BlocListener<TodoItemBloc, TodoItemState>(
               listener: (context, state) {
-                if (state is TodosLoaded) {
+                if (state is TodosUpdatedSuccess) {
                   context.read<CategoryBloc>().add(LoadCategories());
                 }
               },
@@ -92,7 +93,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                             onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => TodayTodosScreen())),
+                                    builder: (_) => AllTodosScreen())),
                           );
                         Category card = state.categories[index - 1];
                         return CategoryCard(
@@ -126,7 +127,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
         Expanded(
           child: BlocListener<TodoItemBloc, TodoItemState>(
             listener: (context, state) {
-              if (state is TodosLoaded) {
+              if (state is TodosUpdatedSuccess) {
                 context.read<TodayTodoBloc>().add(LoadAllTodayTodos());
               }
             },

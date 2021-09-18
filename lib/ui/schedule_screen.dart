@@ -30,17 +30,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     // TODO: REFACTOR DISS SHIT DATETIME THING
     var todoState = BlocProvider.of<TodoItemBloc>(context).state;
     var events = {};
-    if (todoState is TodosLoaded) {
-      todoState.todos.forEach((todo) {
-        DateTime date = DateTime.utc(todo.dateCreated.year,
-            todo.dateCreated.month, todo.dateCreated.day);
-        if (!events.containsKey(date)) {
-          events[date] = [todo];
-        } else {
-          events[date].add(todo);
-        }
-      });
-    }
+    // if (todoState is Up) {
+    //   todoState.todos.forEach((todo) {
+    //     DateTime date = DateTime.utc(todo.dateCreated.year,
+    //         todo.dateCreated.month, todo.dateCreated.day);
+    //     if (!events.containsKey(date)) {
+    //       events[date] = [todo];
+    //     } else {
+    //       events[date].add(todo);
+    //     }
+    //   });
+    // }
     return events[day] ?? [];
   }
 
