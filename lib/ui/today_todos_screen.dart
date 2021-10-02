@@ -56,7 +56,7 @@ class TodayTodosScreen extends StatelessWidget {
                 padding: EdgeInsets.only(left: 28),
                 itemBuilder: (context, index) {
                   Todo todo = state.todos[index];
-                  log(todo.title);
+                  // log(todo.title);
                   return Dismissible(
                     key: UniqueKey(),
                     onDismissed: (direction) {

@@ -24,13 +24,14 @@ class TodayTodoBloc extends Bloc<TodayTodoEvent, TodayTodoState> {
     try {
       var todos = await todoRepository.getTodayTodos();
       if (todos.isEmpty) {
-        log('tes');
+        // log('tes');
         yield TodayTodoHasNoData();
       } else {
-        log('tes');
+        // log('tes');
         yield TodayTodoHasData(todos);
       }
     } catch (e) {
+      log(e.toString());
       yield TodayTodoIsError();
     }
   }

@@ -155,7 +155,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     padding: EdgeInsets.only(left: 28.0),
                     itemBuilder: (context, index) {
                       Todo todo = state.todos[index];
-                      log(todo.dateCreated.toString());
+                      // log(todo.dateCreated.toString());
                       return Dismissible(
                         key: UniqueKey(),
                         onDismissed: (direction) {

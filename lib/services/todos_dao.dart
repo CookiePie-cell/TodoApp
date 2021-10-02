@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:todo_app/database/TodosDatabase.dart';
 import 'package:todo_app/models/category.dart';
@@ -24,7 +24,7 @@ class TodosDao {
         INNER JOIN todos_category ON todo._id = todos_category.todo_id
         INNER JOIN category ON todos_category.category_id = category._id
         WHERE ? != "" AND todo._title LIKE ?''', [query, '%$query%']);
-    log(result.toString());
+    // log(result.toString());
     return result.isNotEmpty
         ? result.map((item) => Todo.fromMap(item)).toList()
         : [];
@@ -49,7 +49,8 @@ class TodosDao {
         INNER JOIN todos_category ON todo._id = todos_category.todo_id
         INNER JOIN category ON todos_category.category_id = category._id
         WHERE strftime('%d', _date_created) = ?
-        ORDER BY _date_created DESC''', [DateTime.now().day.toString()]);
+        ORDER BY _date_created DESC''',
+        [DateTime.now().day.toString().padLeft(2, '0')]);
     return result.isNotEmpty
         ? result.map((item) => Todo.fromMap(item)).toList()
         : [];
@@ -69,7 +70,7 @@ class TodosDao {
 
   Future updateTodo(Todo todo) async {
     final db = await todosDatabase.database;
-    log(todo.toMap().toString());
+    // log(todo.toMap().toString());
     await db.transaction((txn) async {
       await txn
           .update('todo', todo.toMap(), where: '_id = ?', whereArgs: [todo.id]);
