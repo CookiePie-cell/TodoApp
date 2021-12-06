@@ -25,7 +25,7 @@ class _TodoListTileState extends State<TodoListTile> {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
-        margin: EdgeInsets.only(right: 28.0, bottom: 8.0),
+        margin: EdgeInsets.only(right: 28.0, left: 28.0, bottom: 8.0),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(12.0))),

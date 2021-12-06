@@ -68,7 +68,7 @@ class TodoByCategoryScreen extends StatelessWidget {
                 return ListView.builder(
                     itemCount: state.todos.length,
                     scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.only(left: 28),
+                    // padding: EdgeInsets.only(left: 28),
                     itemBuilder: (context, index) {
                       Todo todo = state.todos[index];
                       return Dismissible(

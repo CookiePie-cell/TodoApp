@@ -152,7 +152,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                   return ListView.builder(
                     itemCount: state.todos.length,
                     scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.only(left: 28.0),
+                    // padding: EdgeInsets.only(left: 28.0),
                     itemBuilder: (context, index) {
                       Todo todo = state.todos[index];
                       // log(todo.dateCreated.toString());
