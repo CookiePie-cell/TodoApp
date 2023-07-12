@@ -26,6 +26,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: true,
       controller: _controller,
       decoration: InputDecoration(
           border: OutlineInputBorder(
