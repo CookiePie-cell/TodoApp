@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:todo_app/models/todo.dart';
 
 abstract class TodoItemState extends Equatable {
   const TodoItemState();
