@@ -111,8 +111,7 @@ class _TodoDialogState extends State<TodoDialog> {
                               Todo(
                                   title: _controller.text,
                                   category: dropDownValue,
-                                  dateCreated:
-                                      DateTime.parse('2021-12-07 18:08:00.000'),
+                                  dateCreated: DateTime.now(),
                                   isActive: true))
                           : _addUpdateEvent(
                               context,
